@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QueueCure - Receptionist Dashboard</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  
+  <header>
+    <div class="logo-container">
+      <div class="logo-icon">➕</div>
+      <div class="logo-text">Queue<span>Cure</span></div>
+    </div>
+    <div class="badge-role">RECEPTIONIST PANEL</div>
+  </header>
+
+  <main>
+    <!-- Top Hero Section showing metrics -->
+    <div class="grid-cols-3">
+      <!-- Card 1: Now Serving -->
+      <div class="card card-hero">
+        <div class="stat-label">Currently Serving</div>
+        <div id="currentTokenDisplay" class="stat-value large">-</div>
+        <div class="stat-label" style="font-size: 0.75rem; color: var(--slate-400);">Token in treatment</div>
+      </div>
+
+      <!-- Card 2: Total Waiting -->
+      <div class="card card-hero" style="background: linear-gradient(135deg, var(--white) 0%, #ecfdf5 100%); border-color: #a7f3d0;">
+        <div class="stat-label">Waiting Patients</div>
+        <div id="totalWaitingDisplay" class="stat-value large" style="color: var(--green-600);">0</div>
+        <div class="stat-label" style="font-size: 0.75rem; color: var(--slate-400);">Total waiting in queue</div>
+      </div>
+
+      <!-- Card 3: Call Next Control -->
+      <div class="card" style="display: flex; flex-direction: column; justify-content: center; gap: 1rem;">
+        <h3 style="text-align: center; color: var(--slate-900);">Queue Action</h3>
+        <button id="callNextBtn" class="btn btn-success pulse-badge">
+          🔔 Call Next Patient
+        </button>
+        <p style="font-size: 0.75rem; color: var(--slate-500); text-align: center;">
+          Pops the next patient and updates all waiting times.
+        </p>
+      </div>
+    </div>
+
+    <!-- Management Controls and Table Grid -->
+    <div class="grid-cols-2">
+      <!-- Left Panel: Waiting List Table -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">👥 Waiting Queue</h2>
+          <span class="badge badge-primary" id="tableHeaderCount">0 waiting</span>
+        </div>
+        
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Token</th>
+                <th>Patient Name</th>
+                <th>Position</th>
+                <th>Est. Wait Time</th>
+              </tr>
+            </thead>
+            <tbody id="waitingListBody">
+              <tr>
+                <td colspan="4" style="text-align: center; color: var(--slate-400); padding: 2rem;">
+                  No patients waiting in queue.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Right Panel: Configurations & Forms -->
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <!-- Card: Add Patient -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">👤 Add New Patient</h2>
+          </div>
+          <form id="addPatientForm">
+            <div class="form-group">
+              <label for="patientName">Patient Full Name</label>
+              <input 
+                type="text" 
+                id="patientName" 
+                class="input-control" 
+                placeholder="e.g. John Doe" 
+                required 
+                autocomplete="off"
+              >
+            </div>
+            <button type="submit" class="btn btn-primary">
+              ➕ Register Patient
+            </button>
+          </form>
+        </div>
+
+        <!-- Card: Set Average Consultation Time -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">⏱️ Consultation Settings</h2>
+          </div>
+          <form id="setTimeForm">
+            <div class="form-group">
+              <label for="avgTimeInput">Average Time per Patient (min)</label>
+              <input 
+                type="number" 
+                id="avgTimeInput" 
+                class="input-control" 
+                min="1" 
+                placeholder="10" 
+                required
+              >
+            </div>
+            <button type="submit" class="btn btn-primary" style="background-color: var(--slate-800);">
+              💾 Update Time Setting
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Toast Notification System -->
+  <div id="toast-container"></div>
+
+  <!-- Include socket.io client and our controller script -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/script.js"></script>
+</body>
+</html>

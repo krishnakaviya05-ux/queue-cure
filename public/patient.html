@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QueueCure - Patient Waiting Room</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <header>
+    <div class="logo-container">
+      <div class="logo-icon">🏥</div>
+      <div class="logo-text">Queue<span>Cure</span></div>
+    </div>
+    <div class="badge-role patient">PATIENT WAITING ROOM</div>
+  </header>
+
+  <main>
+    <div class="grid-patient">
+      <!-- Left Column: Big Now Serving Billboard -->
+      <div class="card card-hero" style="padding: 3rem 1.5rem; background: linear-gradient(135deg, var(--white) 0%, var(--primary-tint) 100%);">
+        <h2 style="font-size: 1.5rem; color: var(--slate-600); margin-bottom: 1rem;">NOW SERVING</h2>
+        <div class="stat-label" style="font-size: 0.85rem; color: var(--slate-400);">Current Token Number</div>
+        <div id="patientCurrentToken" class="stat-value large" style="font-size: 6rem; margin: 1.5rem 0;">-</div>
+        <div class="badge badge-success pulse-badge" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+          🟢 Live Update Active
+        </div>
+      </div>
+
+      <!-- Right Column: Check Queue Status Form and Result Box -->
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">🔍 Check My Queue Status</h2>
+          </div>
+          
+          <form id="checkStatusForm" style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+            <div style="flex-grow: 1;">
+              <input 
+                type="number" 
+                id="searchTokenInput" 
+                class="input-control" 
+                placeholder="Enter your token number (e.g. 5)" 
+                min="1" 
+                required
+              >
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: auto; padding: 0.75rem 2rem;">
+              Check Status
+            </button>
+          </form>
+
+          <!-- Dynamic Status Card (Controlled by script.js) -->
+          <div id="patientStatusCard" class="status-card">
+            <h3 id="statusCardTitle" class="status-title">Status Report</h3>
+            <p id="statusCardDescription" style="font-size: 0.95rem; color: var(--slate-600);"></p>
+            
+            <div id="statusDetailsGrid" class="status-grid">
+              <div class="status-item">
+                <div id="statusPeopleAhead" class="val">-</div>
+                <div class="lbl">People Ahead</div>
+              </div>
+              <div class="status-item">
+                <div id="statusWaitTime" class="val">-</div>
+                <div class="lbl">Est. Wait (min)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Helpful instructions card -->
+        <div class="card" style="background-color: var(--slate-100);">
+          <h3 style="font-size: 1rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+            ℹ️ Queue Instructions
+          </h3>
+          <ul style="padding-left: 1.25rem; font-size: 0.85rem; color: var(--slate-600); display: flex; flex-direction: column; gap: 0.25rem;">
+            <li>Keep this page open; it updates automatically.</li>
+            <li>Please head to the clinic consultation desk once your token matches the "Now Serving" board.</li>
+            <li>Wait times are estimates and may vary based on treatment complexity.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Toast Notification System -->
+  <div id="toast-container"></div>
+
+  <!-- Include socket.io client and our controller script -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/script.js"></script>
+</body>
+</html>
